@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>loading...</title>
+    <style>
+        body {
+            background: #1d1a1a;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>loading...</h1>
+    <script>
+        /**
+        * Determine the mobile operating system.
+        * This function returns one of 'iOS', 'Android', 'Windows Phone', or 'unknown'.
+        *
+        * @returns {String}
+        */
+        function getMobileOperatingSystem() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            // Windows Phone must come first because its UA also contains "Android"
+            if (/windows phone/i.test(userAgent)) {
+                return "Windows Phone";
+            }
+
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
+
+            // iOS detection
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return "iOS";
+            }
+
+            return "unknown";
+        }
+
+        window.onload = function () {
+            let params = (new URL(document.location)).searchParams;
+            let ios = params.get("ios");
+            let android = params.get("android");
+
+            let agent = getMobileOperatingSystem();
+            if (agent === "Android") window.location = android;
+            if (agent === "iOS") window.location = ios;
+        };
+    </script>
+</body>
+
+</html>
